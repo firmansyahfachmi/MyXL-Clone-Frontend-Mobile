@@ -13,6 +13,7 @@ import {withNavigation} from 'react-navigation';
 
 import Carousel from '../Components/Carousel';
 import Menu from '../Components/Menu';
+import ProgressBar from '../Components/ProgressBar';
 
 class Home extends Component {
   constructor() {
@@ -202,43 +203,10 @@ class Home extends Component {
                 </View>
 
                 {/* PROGRESS BAR */}
-                <View
-                  style={{
-                    backgroundColor: 'rgb(146,146,146)',
-                    width: '100%',
-                    borderRadius: 3,
-                    height: 25,
-                    justifyContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      position: 'absolute',
-                      zIndex: 1,
-                      fontSize: 12,
-                      left: 5,
-                    }}>
-                    0 MB
-                  </Text>
-                  <View
-                    style={{
-                      backgroundColor: '#00C89F',
-                      width: '50%',
-                      borderRadius: 3,
-                      flex: 1,
-                    }}></View>
-                  <Text
-                    style={{
-                      color: 'white',
-                      position: 'absolute',
-                      zIndex: 1,
-                      fontSize: 12,
-                      right: 5,
-                    }}>
-                    50 MB
-                  </Text>
+                <View>
+                  <ProgressBar />
                 </View>
-                {/* PROGRESS BAR */}
+                {/* PROGRESS BAR END*/}
               </TouchableOpacity>
               <View
                 style={{
