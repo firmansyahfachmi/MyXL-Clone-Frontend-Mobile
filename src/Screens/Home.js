@@ -38,10 +38,6 @@ class Home extends Component {
     // balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     return (
       <Fragment>
-        <View>
-          <StatusBar backgroundColor={'#002CBA'} />
-        </View>
-
         {/* LOADING */}
         {this.props.loading === true ? (
           <View>
@@ -49,6 +45,9 @@ class Home extends Component {
           </View>
         ) : null}
         {/* LOADING END */}
+        <View>
+          <StatusBar backgroundColor={'#002CBA'} />
+        </View>
 
         <View style={styles.header}>
           <View style={[styles.headerItem, {width: '20%'}]}>
@@ -261,12 +260,27 @@ class Home extends Component {
                   </View>
 
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;MB
+                    {this.props.user.totalQuota === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                        <Text>&nbsp;MB</Text>
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalQuota >= 1000
+                          ? this.props.user.totalQuota / 1000
+                          : this.props.user.totalQuota}
+                      </Text>
+                    )}
+                    {this.props.user.totalQuota >= 1000 ? (
+                      <Text style={{color: 'grey'}}>&nbsp;GB</Text>
+                    ) : (
+                      <Text style={{color: 'grey'}}>&nbsp;MB</Text>
+                    )}
                   </Text>
                 </View>
                 <View
@@ -294,12 +308,20 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;Menit
+                    {this.props.user.totalCall === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalCall}
+                      </Text>
+                    )}
+                    <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
                   </Text>
                 </View>
                 <View style={styles.tree}>
@@ -318,12 +340,20 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;SMS
+                    {this.props.user.totalSMS === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalSMS}
+                      </Text>
+                    )}
+                    <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
                   </Text>
                 </View>
               </View>
@@ -339,8 +369,8 @@ class Home extends Component {
           {/* MENU END */}
 
           {/* CAROUSEL */}
-          <View style={{paddingHorizontal: 18}}>
-            <Text>Promo Terbaru</Text>
+          <View>
+            <Text style={{paddingHorizontal: 18}}>Promo Terbaru</Text>
             <Carousel />
           </View>
           {/* CAROUSEL END */}
@@ -355,7 +385,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
+    paddingBottom: 5,
   },
 
   butPulsa: {

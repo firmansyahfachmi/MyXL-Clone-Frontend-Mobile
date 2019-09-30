@@ -7,6 +7,7 @@ import {Icon} from 'native-base';
 
 import HomeScreen from '../Screens/Home';
 import PackageScreen from '../Screens/Package';
+import PromoScreen from '../Screens/Promo';
 // import Splash from '../Screens/Splash';
 
 // const AuthStack = createStackNavigator({});
@@ -29,6 +30,15 @@ const AppStack = createStackNavigator({
 const PackageStack = createStackNavigator({
   Package: {
     screen: PackageScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
+
+const PromoStack = createStackNavigator({
+  Package: {
+    screen: PromoScreen,
     navigationOptions: {
       header: null,
     },
@@ -64,7 +74,7 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
     PromoTab: {
-      screen: AppStack,
+      screen: PromoStack,
       navigationOptions: {
         tabBarLabel: 'Promo',
         tabBarIcon: ({tintColor}) => (

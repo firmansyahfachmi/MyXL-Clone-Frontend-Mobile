@@ -5,7 +5,7 @@ import {Icon} from 'native-base';
 
 import ProgressBar from '../ProgressBar';
 
-const Internet1 = () => {
+const Internet1 = props => {
   return (
     <Fragment>
       <View style={{height: 'auto'}}>
@@ -39,20 +39,31 @@ const Internet1 = () => {
               alignItems: 'center',
               flexDirection: 'row',
             }}>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>40&nbsp;</Text>
-            <Text>MB</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {props.dataItems.remaining >= 1000
+                ? props.dataItems.remaining / 1000
+                : props.dataItems.remaining}
+            </Text>
+            {props.dataItems.remaining >= 1000 ? (
+              <Text>&nbsp;GB</Text>
+            ) : (
+              <Text>&nbsp;MB</Text>
+            )}
           </View>
         </View>
         {/* PROGRES BAR */}
         <View style={{paddingVertical: 2}}>
-          <ProgressBar />
+          <ProgressBar
+            total={props.dataItems.value}
+            remaining={props.dataItems.remaining}
+          />
           <Text
             style={{
               fontSize: 12,
               color: 'silver',
               paddingLeft: 24,
             }}>
-            24jam di 2G3G4G
+            {props.dataItems.name}
           </Text>
         </View>
         {/* PROGRES BAR END*/}

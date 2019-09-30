@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 
+import {connect} from 'react-redux';
+import {getUser} from '../Publics/Redux/Action/user';
+
 import ActivePackage from '../Components/PackageActive';
 import ProgressBar from '../Components/ProgressBar';
 
@@ -17,6 +20,10 @@ class Home extends Component {
     super();
     this.state = {};
   }
+
+  componentDidMount = async () => {
+    await this.props.dispatch(getUser());
+  };
 
   render() {
     return (
@@ -65,7 +72,10 @@ class Home extends Component {
 
                 {/* PROGRESS BAR */}
                 <View>
-                  <ProgressBar />
+                  <ProgressBar
+                    remaining={this.props.user.remainingQuota}
+                    total={this.props.user.totalQuota}
+                  />
                 </View>
                 {/* PROGRESS BAR */}
               </View>
@@ -95,12 +105,27 @@ class Home extends Component {
                   </View>
 
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;MB
+                    {this.props.user.totalQuota === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                        <Text>&nbsp;MB</Text>
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalQuota >= 1000
+                          ? this.props.user.totalQuota / 1000
+                          : this.props.user.totalQuota}
+                      </Text>
+                    )}
+                    {this.props.user.totalQuota >= 1000 ? (
+                      <Text style={{color: 'grey'}}>&nbsp;GB</Text>
+                    ) : (
+                      <Text style={{color: 'grey'}}>&nbsp;MB</Text>
+                    )}
                   </Text>
                 </View>
                 <View
@@ -128,12 +153,20 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;Menit
+                    {this.props.user.totalCall === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalCall}
+                      </Text>
+                    )}
+                    <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
                   </Text>
                 </View>
                 <View style={styles.tree}>
@@ -152,12 +185,20 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    <Icon
-                      type="AntDesign"
-                      name="plussquare"
-                      style={{fontSize: 12, color: 'red'}}
-                    />
-                    &nbsp;SMS
+                    {this.props.user.totalSMS === 0 ? (
+                      <>
+                        <Icon
+                          type="AntDesign"
+                          name="plussquare"
+                          style={{fontSize: 12, color: 'red'}}
+                        />
+                      </>
+                    ) : (
+                      <Text style={{fontSize: 20}}>
+                        {this.props.user.totalSMS}
+                      </Text>
+                    )}
+                    <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
                   </Text>
                 </View>
               </View>
@@ -167,7 +208,9 @@ class Home extends Component {
           {/* ACTIVE PACKAGE */}
           <View style={styles.myPackage}>
             <Text style={{fontSize: 12, color: 'grey'}}>PAKET AKTIF SAYA</Text>
-            <ActivePackage />
+            {this.props.user.packages.map(pack => (
+              <ActivePackage type={pack.id} data={pack} />
+            ))}
           </View>
           {/* ACTIVE PACKAGE END*/}
         </ScrollView>
@@ -215,4 +258,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    user: state.user.currentUser,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

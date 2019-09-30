@@ -29,11 +29,9 @@ const Nelp = props => {
               }}
             />
 
-            {props.status === 1 ? (
-              <Text style={{color: 'rgb(146,146,146)'}}>{'Nelp (Ke XL)'}</Text>
-            ) : (
-              <Text style={{color: 'rgb(146,146,146)'}}>{'Nelp (Non XL)'}</Text>
-            )}
+            <Text style={{color: 'rgb(146,146,146)'}}>
+              {props.dataItems.name}
+            </Text>
           </View>
           <View
             style={{
@@ -42,11 +40,9 @@ const Nelp = props => {
               alignItems: 'center',
               flexDirection: 'row',
             }}>
-            {props.status === 1 ? (
-              <Text style={{fontSize: 16, fontWeight: '700'}}>90</Text>
-            ) : (
-              <Text style={{fontSize: 16, fontWeight: '700'}}>10</Text>
-            )}
+            <Text style={{fontSize: 16, fontWeight: '700'}}>
+              {props.dataItems.remaining}
+            </Text>
             <Text>&nbsp;menit</Text>
           </View>
         </View>
