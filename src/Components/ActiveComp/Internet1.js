@@ -49,7 +49,7 @@ const Internet1 = () => {
           <Text
             style={{
               fontSize: 12,
-              color: 'rgb(146,146,146)',
+              color: 'silver',
               paddingLeft: 24,
             }}>
             24jam di 2G3G4G

@@ -1,7 +1,12 @@
 import React, {Fragment} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
-const Progress = () => {
+const Progress = props => {
+  let count = 0;
+  let percent = 0;
+  percent = (props.remaining / 1000) * 100;
+  percent.toString();
+
   return (
     <Fragment>
       <View
@@ -20,12 +25,13 @@ const Progress = () => {
             fontSize: 12,
             left: 5,
           }}>
-          0 MB
+          0{props.total >= 1000 ? <Text> GB</Text> : <Text> MB</Text>}
         </Text>
+
         <View
           style={{
             backgroundColor: '#00C89F',
-            width: '50%',
+            width: percent + '%',
             borderRadius: 3,
             flex: 1,
           }}></View>
@@ -37,7 +43,11 @@ const Progress = () => {
             fontSize: 12,
             right: 5,
           }}>
-          50 MB
+          {props.total >= 1000 ? (
+            <Text>{(count = props.total / 1000)} GB</Text>
+          ) : (
+            <Text>{props.total} MB</Text>
+          )}
         </Text>
       </View>
     </Fragment>

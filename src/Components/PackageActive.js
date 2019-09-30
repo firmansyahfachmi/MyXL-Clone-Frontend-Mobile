@@ -58,7 +58,8 @@ const packageActive = () => {
             <View style={{height: 'auto'}}>
               <View
                 style={{
-                  height: 25,
+                  paddingTop: 5,
+                  height: 'auto',
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                 }}>

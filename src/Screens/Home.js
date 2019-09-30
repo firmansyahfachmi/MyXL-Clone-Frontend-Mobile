@@ -8,12 +8,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'native-base';
+import Moment from 'moment';
 
 import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
+
+import {getUser} from '../Publics/Redux/Action/user';
 
 import Carousel from '../Components/Carousel';
 import Menu from '../Components/Menu';
 import ProgressBar from '../Components/ProgressBar';
+import Loading from '../Components/loading';
 
 class Home extends Component {
   constructor() {
@@ -23,12 +28,27 @@ class Home extends Component {
     };
   }
 
+  componentDidMount = async () => {
+    await this.props.dispatch(getUser());
+  };
+
   render() {
+    Moment.locale('en');
+    let balance = this.props.user.balance;
+    // balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     return (
       <Fragment>
         <View>
           <StatusBar backgroundColor={'#002CBA'} />
         </View>
+
+        {/* LOADING */}
+        {this.props.loading === true ? (
+          <View>
+            <Loading />
+          </View>
+        ) : null}
+        {/* LOADING END */}
 
         <View style={styles.header}>
           <View style={[styles.headerItem, {width: '20%'}]}>
@@ -59,10 +79,14 @@ class Home extends Component {
           <View style={styles.profileImg}>
             <View style={styles.img}></View>
           </View>
+
           <View style={{justifyContent: 'center', flex: 1}}>
-            <Text style={{fontSize: 14}}>Name</Text>
-            <Text style={{fontSize: 14, color: 'silver'}}>Number</Text>
+            <Text style={{fontSize: 14}}>{this.props.user.name}</Text>
+            <Text style={{fontSize: 14, color: 'silver'}}>
+              {this.props.user.number}
+            </Text>
           </View>
+
           <View
             style={{
               width: '20%',
@@ -137,7 +161,7 @@ class Home extends Component {
 
               <View style={{flex: 1, paddingVertical: 3, flexDirection: 'row'}}>
                 <View style={{width: '70%'}}>
-                  <Text style={{fontSize: 22}}>Rp 2.750</Text>
+                  <Text style={{fontSize: 22}}>Rp {balance}</Text>
                 </View>
 
                 <View
@@ -165,8 +189,9 @@ class Home extends Component {
                       borderRadius: 5,
                       backgroundColor: '#00C89F',
                     }}></View>
-                  <Text style={{color: 'silver'}}>&nbsp;&nbsp;Sampai</Text> 28
-                  Oct, 2019 - 29 Hari
+                  <Text style={{color: 'silver'}}>&nbsp;&nbsp;Sampai</Text>{' '}
+                  {Moment(this.props.user.expirationDate).format('D MMM, YYYY')}{' '}
+                  - {this.props.user.daysUntilExpired} Hari
                 </Text>
               </View>
             </View>
@@ -204,7 +229,10 @@ class Home extends Component {
 
                 {/* PROGRESS BAR */}
                 <View>
-                  <ProgressBar />
+                  <ProgressBar
+                    remaining={this.props.user.remainingQuota}
+                    total={this.props.user.totalQuota}
+                  />
                 </View>
                 {/* PROGRESS BAR END*/}
               </TouchableOpacity>
@@ -395,4 +423,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Home);
+const mapStateToProps = state => {
+  return {
+    user: state.user.currentUser,
+    loading: state.user.isLoading,
+  };
+};
+
+export default connect(mapStateToProps)(withNavigation(Home));
