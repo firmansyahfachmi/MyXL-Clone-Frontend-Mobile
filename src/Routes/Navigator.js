@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
+
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import {Icon} from 'native-base';
 
+// import Splash from '../Screens/Splash';
 import HomeScreen from '../Screens/Home';
 import PackageScreen from '../Screens/Package';
 import PromoScreen from '../Screens/Promo';
-// import Splash from '../Screens/Splash';
+import BuyPackageScreen from '../Screens/BuyPackage';
+import CategoryScreen from '../Screens/Category';
 
 // const AuthStack = createStackNavigator({});
 
@@ -19,8 +22,14 @@ const AppStack = createStackNavigator({
       header: null,
     },
   },
-  Package: {
-    screen: PackageScreen,
+  BuyPackage: {
+    screen: BuyPackageScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Category: {
+    screen: CategoryScreen,
     navigationOptions: {
       header: null,
     },
@@ -37,7 +46,7 @@ const PackageStack = createStackNavigator({
 });
 
 const PromoStack = createStackNavigator({
-  Package: {
+  Promo: {
     screen: PromoScreen,
     navigationOptions: {
       header: null,
@@ -110,7 +119,7 @@ const AppNavigator = createBottomTabNavigator(
       style: {
         paddingVertical: 3,
         height: 55,
-        elevation: 5,
+        elevation: 2,
         borderTopColor: 'silver',
       },
     },

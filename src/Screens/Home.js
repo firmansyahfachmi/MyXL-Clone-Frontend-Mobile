@@ -25,17 +25,21 @@ class Home extends Component {
     super();
     this.state = {
       showBox: false,
+      balance: '',
     };
   }
 
   componentDidMount = async () => {
-    await this.props.dispatch(getUser());
+    await this.props.dispatch(getUser()).then(() => {
+      this.setState({balance: this.props.user.balance});
+    });
   };
 
   render() {
     Moment.locale('en');
-    let balance = this.props.user.balance;
-    // balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    let balance = this.state.balance
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return (
       <Fragment>
         {/* LOADING */}
@@ -72,7 +76,11 @@ class Home extends Component {
         </View>
 
         <TouchableOpacity
-          onPress={() => this.setState({showBox: true})}
+          onPress={() =>
+            this.state.showBox === false
+              ? this.setState({showBox: true})
+              : this.setState({showBox: false})
+          }
           activeOpacity={1}
           style={styles.profile}>
           <View style={styles.profileImg}>
@@ -119,7 +127,7 @@ class Home extends Component {
                 padding: 15,
                 flexDirection: 'row',
                 alignItems: 'center',
-                backgroundColor: 'white',
+                backgroundColor: 'whitesmoke',
               }}>
               <View
                 style={{
@@ -260,28 +268,32 @@ class Home extends Component {
                   </View>
 
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    {this.props.user.totalQuota === 0 ? (
+                    {this.props.user.remainingQuota === 0 ? (
                       <>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                        <Text>&nbsp;MB</Text>
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalQuota >= 1000
-                          ? this.props.user.totalQuota / 1000
-                          : this.props.user.totalQuota}
+                        {this.props.user.remainingQuota >= 1000
+                          ? this.props.user.remainingQuota / 1000
+                          : this.props.user.remainingQuota}
                       </Text>
                     )}
-                    {this.props.user.totalQuota >= 1000 ? (
+                    {this.props.user.remainingQuota >= 1000 ? (
                       <Text style={{color: 'grey'}}>&nbsp;GB</Text>
                     ) : (
                       <Text style={{color: 'grey'}}>&nbsp;MB</Text>
                     )}
                   </Text>
+                  {this.props.user.unlimited === 1 ? (
+                    <Text style={{fontSize: 10, color: '#00C89F'}}>
+                      + UNLIMITED
+                    </Text>
+                  ) : null}
                 </View>
                 <View
                   style={[
@@ -308,7 +320,7 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    {this.props.user.totalCall === 0 ? (
+                    {this.props.user.remainingCall === 0 ? (
                       <>
                         <Icon
                           type="AntDesign"
@@ -318,7 +330,7 @@ class Home extends Component {
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalCall}
+                        {this.props.user.remainingCall}
                       </Text>
                     )}
                     <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
@@ -340,7 +352,7 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    {this.props.user.totalSMS === 0 ? (
+                    {this.props.user.remainingSMS === 0 ? (
                       <>
                         <Icon
                           type="AntDesign"
@@ -350,7 +362,7 @@ class Home extends Component {
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalSMS}
+                        {this.props.user.remainingSMS}
                       </Text>
                     )}
                     <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
@@ -435,8 +447,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     height: 65,
-    elevation: 2,
-    zIndex: 2,
+    zIndex: 3,
   },
 
   profileImg: {

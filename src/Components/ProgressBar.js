@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 const Progress = props => {
   let count = 0;
   let percent = 0;
-  percent = (props.remaining / 1000) * 100;
+  percent = (props.remaining / props.total) * 100;
   percent.toString();
 
   return (

@@ -15,7 +15,7 @@ import {getUser} from '../Publics/Redux/Action/user';
 import ActivePackage from '../Components/PackageActive';
 import ProgressBar from '../Components/ProgressBar';
 
-class Home extends Component {
+class Packages extends Component {
   constructor() {
     super();
     this.state = {};
@@ -112,21 +112,25 @@ class Home extends Component {
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                        <Text>&nbsp;MB</Text>
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalQuota >= 1000
-                          ? this.props.user.totalQuota / 1000
-                          : this.props.user.totalQuota}
+                        {this.props.user.remainingQuota >= 1000
+                          ? this.props.user.remainingQuota / 1000
+                          : this.props.user.remainingQuota}
                       </Text>
                     )}
-                    {this.props.user.totalQuota >= 1000 ? (
+                    {this.props.user.remainingQuota >= 1000 ? (
                       <Text style={{color: 'grey'}}>&nbsp;GB</Text>
                     ) : (
                       <Text style={{color: 'grey'}}>&nbsp;MB</Text>
                     )}
                   </Text>
+                  {this.props.user.unlimited === 1 ? (
+                    <Text style={{fontSize: 10, color: '#00C89F'}}>
+                      + UNLIMITED
+                    </Text>
+                  ) : null}
                 </View>
                 <View
                   style={[
@@ -153,7 +157,7 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    {this.props.user.totalCall === 0 ? (
+                    {this.props.user.remainingCall === 0 ? (
                       <>
                         <Icon
                           type="AntDesign"
@@ -163,7 +167,7 @@ class Home extends Component {
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalCall}
+                        {this.props.user.remainingCall}
                       </Text>
                     )}
                     <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
@@ -185,7 +189,7 @@ class Home extends Component {
                     />
                   </View>
                   <Text style={{fontSize: 12, paddingTop: 3}}>
-                    {this.props.user.totalSMS === 0 ? (
+                    {this.props.user.remainingSMS === 0 ? (
                       <>
                         <Icon
                           type="AntDesign"
@@ -195,7 +199,7 @@ class Home extends Component {
                       </>
                     ) : (
                       <Text style={{fontSize: 20}}>
-                        {this.props.user.totalSMS}
+                        {this.props.user.remainingSMS}
                       </Text>
                     )}
                     <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
@@ -264,4 +268,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Packages);

@@ -19,7 +19,7 @@ const CarouselPromo = () => {
           paddingVertical: 10,
           paddingBottom: 30,
         }}>
-        <View style={styles.carousel}>
+        {/* <View style={styles.carousel}>
           <View style={styles.imgDiv}>
             <View style={styles.overlay}></View>
 
@@ -44,7 +44,7 @@ const CarouselPromo = () => {
               Diskon 30% Pembayaran dengan DANA
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <View style={styles.carousel}>
           <View style={styles.imgDiv}>
@@ -73,7 +73,7 @@ const CarouselPromo = () => {
           </View>
         </View>
 
-        <View style={styles.carousel}>
+        {/* <View style={styles.carousel}>
           <View style={styles.imgDiv}>
             <View style={styles.overlay}></View>
 
@@ -98,9 +98,9 @@ const CarouselPromo = () => {
               Cashback 50%! Beli Gadget XL Sekarang
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.carousel}>
+        {/* <View style={styles.carousel}>
           <View style={styles.imgDiv}>
             <View style={styles.overlay}></View>
 
@@ -125,7 +125,7 @@ const CarouselPromo = () => {
               Diskon hingga 15% untuk Paket Roaming
             </Text>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </Fragment>
   );

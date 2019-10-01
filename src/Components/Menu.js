@@ -1,11 +1,13 @@
 import React, {Fragment} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+
+import {withNavigation} from 'react-navigation';
 
 import Menu1 from '../Assets/menu1.png';
 import Menu2 from '../Assets/menu2.png';
 import Menu3 from '../Assets/menu3.png';
 
-const cardMenu = () => {
+const cardMenu = props => {
   return (
     <Fragment>
       <View
@@ -14,24 +16,27 @@ const cardMenu = () => {
           paddingVertical: 10,
           flexDirection: 'row',
         }}>
-        <View style={styles.menu}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => props.navigation.navigate('BuyPackage')}
+          style={styles.menu}>
           <View style={styles.icon}>
             <Image source={Menu1} style={{resizeMode: 'contain', width: 35}} />
           </View>
           <Text style={{fontSize: 12}}>Beli Paket</Text>
-        </View>
-        <View style={[styles.menu, {marginHorizontal: 10}]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menu, {marginHorizontal: 10}]}>
           <View style={styles.icon}>
             <Image source={Menu2} style={{resizeMode: 'contain', width: 35}} />
           </View>
           <Text style={{fontSize: 12}}>Bagi Pulsa</Text>
-        </View>
-        <View style={styles.menu}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu}>
           <View style={styles.icon}>
             <Image source={Menu3} style={{resizeMode: 'contain', width: 35}} />
           </View>
           <Text style={{fontSize: 12}}>123 Play</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </Fragment>
   );
@@ -57,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default cardMenu;
+export default withNavigation(cardMenu);

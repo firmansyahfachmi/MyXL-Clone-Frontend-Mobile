@@ -3,9 +3,9 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 
 import {Icon} from 'native-base';
 
-import ProgressBar from '../ProgressBar';
+import ProgressBar from './ProgressBar';
 
-const Internet1 = props => {
+const buyItem = props => {
   return (
     <Fragment>
       {props.dataItems.map(items => (
@@ -115,12 +115,8 @@ const Internet1 = props => {
               </View>
             ) : null}
           </View>
-          {/* PROGRES BAR */}
           {items.type === 'internet' ? (
             <View style={{paddingVertical: 2}}>
-              {items.value !== -1 ? (
-                <ProgressBar total={items.value} remaining={items.remaining} />
-              ) : null}
               <Text
                 style={{
                   fontSize: 12,
@@ -149,7 +145,6 @@ const Internet1 = props => {
               {items.name}
             </Text>
           ) : null}
-          {/* PROGRES BAR END*/}
         </View>
       ))}
     </Fragment>
@@ -158,4 +153,4 @@ const Internet1 = props => {
 
 const styles = StyleSheet.create({});
 
-export default Internet1;
+export default buyItem;

@@ -3,19 +3,19 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {Icon} from 'native-base';
 
-import Internet1 from '../Components/ActiveComp/Internet1';
-
 import Logo1 from '../Assets/logoXL-04.png';
 import Icon2 from '../Assets/icon2.jpg';
 import Icon3 from '../Assets/icon3.jpg';
 import Icon4 from '../Assets/icon4.jpg';
 import Icon5 from '../Assets/icon5.jpg';
+import BuyItem from './BuyItem';
 
-const packageActive = props => {
+const CardBuy = props => {
+  let price = props.data.price;
   return (
     <Fragment>
       <View
-        key={props.id}
+        key={props.data.id}
         style={{
           height: 'auto',
           width: '100%',
@@ -48,7 +48,7 @@ const packageActive = props => {
           <View style={{paddingVertical: 5, flex: 1}}>
             {/* COMPONENT 1 */}
             <View>
-              <Internet1 dataItems={props.data.packageItems} />
+              <BuyItem dataItems={props.data.packageItems} />
             </View>
             {/* COMPONENT 1 END*/}
 
@@ -91,6 +91,46 @@ const packageActive = props => {
                 </View>
               </View>
             </View>
+            <View style={{height: 'auto'}}>
+              <View
+                style={{
+                  paddingTop: 5,
+                  height: 'auto',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Icon
+                    type="FontAwesome5"
+                    name="money-bill"
+                    style={{
+                      fontSize: 20,
+                      color: 'rgb(146,146,146)',
+                      marginRight: 5,
+                    }}
+                  />
+                  <Text style={{color: 'rgb(146,146,146)'}}>Harga</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
+                  <Text>Rp&nbsp;</Text>
+                  <Text style={{fontSize: 16, fontWeight: '700'}}>
+                    {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
             <View style={{flexDirection: 'row', paddingVertical: 10}}>
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -102,12 +142,7 @@ const packageActive = props => {
                     borderColor: '#002CBA',
                   },
                 ]}>
-                <Icon
-                  type="AntDesign"
-                  name="close"
-                  style={{fontSize: 14, marginRight: 6, color: '#002CBA'}}
-                />
-                <Text>&nbsp;STOP PAKET</Text>
+                <Text style={{color: '#002CBA'}}>&nbsp;INFO</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -115,17 +150,12 @@ const packageActive = props => {
                   styles.button,
                   {
                     marginLeft: 3,
-                    backgroundColor: 'yellow',
+                    backgroundColor: 'rgb(254,242,0)',
                     borderWidth: 1,
                     borderColor: '#f2de49',
                   },
                 ]}>
-                <Icon
-                  type="AntDesign"
-                  name="plus"
-                  style={{fontSize: 14, marginRight: 6, color: '#002CBA'}}
-                />
-                <Text>ISI KUOTA</Text>
+                <Text>BELI</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -166,7 +196,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#002CBA',
     width: 50,
     height: 50,
-
+    borderBottomRightRadius: 3,
+    borderBottomLeftRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -181,4 +212,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default packageActive;
+export default CardBuy;
