@@ -12,29 +12,55 @@ import PackageScreen from '../Screens/Package';
 import PromoScreen from '../Screens/Promo';
 import BuyPackageScreen from '../Screens/BuyPackage';
 import CategoryScreen from '../Screens/Category';
+import PayScreen from '../Screens/Pay';
 
 // const AuthStack = createStackNavigator({});
 
-const AppStack = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      header: null,
+const AppStack = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    BuyPackage: {
+      screen: BuyPackageScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Category: {
+      screen: CategoryScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Pay: {
+      screen: PayScreen,
+      navigationOptions: {
+        header: null,
+      },
     },
   },
-  BuyPackage: {
-    screen: BuyPackageScreen,
-    navigationOptions: {
-      header: null,
+  {
+    navigationOptions: ({navigation}) => {
+      let tabBarVisible;
+      if (navigation.state.routes.length > 1) {
+        navigation.state.routes.map(route => {
+          if (route.routeName === 'Pay') {
+            tabBarVisible = false;
+          } else {
+            tabBarVisible = true;
+          }
+        });
+      }
+      return {
+        tabBarVisible,
+      };
     },
   },
-  Category: {
-    screen: CategoryScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-});
+);
 
 const PackageStack = createStackNavigator({
   Package: {

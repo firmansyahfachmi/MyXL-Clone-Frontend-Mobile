@@ -9,10 +9,14 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 
+import {withNavigation} from 'react-navigation';
+
 import {connect} from 'react-redux';
 import {getPackage} from '../Publics/Redux/Action/package';
+import {getCategoryById} from '../Publics/Redux/Action/category';
 
 import CardBuy from '../Components/CardBuy';
+import Loading from '../Components/loading';
 
 class Category extends Component {
   constructor() {
@@ -22,11 +26,27 @@ class Category extends Component {
 
   componentDidMount = async () => {
     await this.props.dispatch(getPackage());
+    await this.props.dispatch(
+      getCategoryById(this.props.navigation.getParam('category')),
+    );
   };
 
   render() {
     return (
       <Fragment>
+        {/* LOADING */}
+        {this.props.loadingCategory === true ? (
+          <View>
+            <Loading />
+          </View>
+        ) : null}
+
+        {this.props.loadingPackage === true ? (
+          <View>
+            <Loading />
+          </View>
+        ) : null}
+        {/* LOADING END */}
         <View>
           <StatusBar backgroundColor={'#002CBA'} />
         </View>
@@ -48,7 +68,7 @@ class Category extends Component {
             </TouchableOpacity>
             <View style={{width: '80%'}}>
               <Text style={{fontSize: 18, color: 'white', fontWeight: '700'}}>
-                {this.props.packages.subcategoryName}
+                {this.props.category[0].name}
               </Text>
             </View>
           </View>
@@ -66,7 +86,9 @@ class Category extends Component {
               height: 130,
               zIndex: 3,
             }}>
-            <Text>{this.props.packages.subcategoryName}</Text>
+            <Text style={{color: 'white', margin: 18, fontSize: 16}}>
+              {this.props.category[0].name}
+            </Text>
           </View>
           <View style={{paddingHorizontal: 18, paddingTop: 5}}>
             {this.props.packages.map(pack =>
@@ -99,6 +121,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     packages: state.packages.packageData,
+    loadingPackage: state.packages.isLoading,
+    category: state.category.categoryData,
+    loadingCategory: state.category.isLoading,
   };
 };
 

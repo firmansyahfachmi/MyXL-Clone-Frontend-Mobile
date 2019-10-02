@@ -27,6 +27,7 @@ const packages = (state = initialState, action) => {
         isFulfilled: true,
         packageData: action.payload.data.response,
       };
+
     default:
       return state;
   }

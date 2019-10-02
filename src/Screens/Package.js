@@ -213,7 +213,12 @@ class Packages extends Component {
           <View style={styles.myPackage}>
             <Text style={{fontSize: 12, color: 'grey'}}>PAKET AKTIF SAYA</Text>
             {this.props.user.packages.map(pack => (
-              <ActivePackage type={pack.id} data={pack} />
+              <ActivePackage
+                type={pack.id}
+                key={pack.id}
+                data={pack}
+                userId={this.props.user.number}
+              />
             ))}
           </View>
           {/* ACTIVE PACKAGE END*/}

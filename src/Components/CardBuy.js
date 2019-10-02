@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {Icon} from 'native-base';
+import {withNavigation} from 'react-navigation';
 
 import Logo1 from '../Assets/logoXL-04.png';
 import Icon2 from '../Assets/icon2.jpg';
@@ -145,6 +146,9 @@ const CardBuy = props => {
                 <Text style={{color: '#002CBA'}}>&nbsp;INFO</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate('Pay', {id: props.data.id})
+                }
                 activeOpacity={0.7}
                 style={[
                   styles.button,
@@ -212,4 +216,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CardBuy;
+export default withNavigation(CardBuy);

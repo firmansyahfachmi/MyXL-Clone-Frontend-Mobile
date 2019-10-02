@@ -2,28 +2,29 @@ import React, {Fragment, Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {Icon} from 'native-base';
-
-import {deletePackage} from '../Publics/Redux/Action/user';
-import {connect} from 'react-redux';
-
-import Internet1 from '../Components/ActiveComp/Internet1';
+import {withNavigation} from 'react-navigation';
 
 import Logo1 from '../Assets/logoXL-04.png';
 import Icon2 from '../Assets/icon2.jpg';
 import Icon3 from '../Assets/icon3.jpg';
 import Icon4 from '../Assets/icon4.jpg';
 import Icon5 from '../Assets/icon5.jpg';
+import BuyItem from './BuyItem';
 
-class packageActive extends Component {
+class CardPay extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      info: false,
+      term: false,
+    };
   }
   render() {
+    let price = this.props.data.price;
     return (
       <Fragment>
         <View
-          key={this.props.id}
+          key={this.props.data.id}
           style={{
             height: 'auto',
             width: '100%',
@@ -58,7 +59,7 @@ class packageActive extends Component {
             <View style={{paddingVertical: 5, flex: 1}}>
               {/* COMPONENT 1 */}
               <View>
-                <Internet1 dataItems={this.props.data.packageItems} />
+                <BuyItem dataItems={this.props.data.packageItems} />
               </View>
               {/* COMPONENT 1 END*/}
 
@@ -103,47 +104,110 @@ class packageActive extends Component {
                   </View>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', paddingVertical: 10}}>
+              <View style={{height: 'auto'}}>
+                <View
+                  style={{
+                    paddingTop: 5,
+                    height: 'auto',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      type="FontAwesome5"
+                      name="money-bill"
+                      style={{
+                        fontSize: 20,
+                        color: 'rgb(146,146,146)',
+                        marginRight: 5,
+                      }}
+                    />
+                    <Text style={{color: 'rgb(146,146,146)'}}>Harga</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <Text>Rp&nbsp;</Text>
+                    <Text style={{fontSize: 16, fontWeight: '700'}}>
+                      {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  marginVertical: 10,
+                  borderTopWidth: 1,
+                  paddingVertical: 15,
+                }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    this.props.dispatch(
-                      deletePackage(this.props.userId, this.props.data.id),
-                    );
-                  }}
-                  activeOpacity={0.7}
-                  style={[
-                    styles.button,
-                    {
-                      marginRight: 3,
-                      borderWidth: 1,
-                      borderColor: '#002CBA',
-                    },
-                  ]}>
-                  <Icon
-                    type="AntDesign"
-                    name="close"
-                    style={{fontSize: 14, marginRight: 6, color: '#002CBA'}}
-                  />
-                  <Text>&nbsp;STOP PAKET</Text>
+                  activeOpacity={1}
+                  onPress={() =>
+                    this.state.info === false
+                      ? this.setState({info: true})
+                      : this.setState({info: false})
+                  }
+                  style={{flexDirection: 'row'}}>
+                  <Text style={{flex: 1}}>Info Paket</Text>
+                  <View
+                    style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
+                    <Icon type="AntDesign" name="down" style={{fontSize: 16}} />
+                  </View>
                 </TouchableOpacity>
+                {this.state.info === true ? (
+                  <View
+                    style={{
+                      height: 'auto',
+                      marginTop: 5,
+                      padding: 8,
+                    }}>
+                    <Text style={{color: 'grey'}}>
+                      {this.props.data.description}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+              <View
+                style={{
+                  borderTopWidth: 1,
+                  paddingVertical: 18,
+                }}>
                 <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={[
-                    styles.button,
-                    {
-                      marginLeft: 3,
-                      backgroundColor: 'yellow',
-                      borderWidth: 1,
-                      borderColor: '#f2de49',
-                    },
-                  ]}>
-                  <Icon
-                    type="AntDesign"
-                    name="plus"
-                    style={{fontSize: 14, marginRight: 6, color: '#002CBA'}}
-                  />
-                  <Text>ISI KUOTA</Text>
+                  activeOpacity={1}
+                  onPress={() =>
+                    this.state.term === false
+                      ? this.setState({term: true})
+                      : this.setState({term: false})
+                  }
+                  style={{flexDirection: 'row'}}>
+                  <Text style={{flex: 1}}>Syarat & Ketentuan</Text>
+                  <View
+                    style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
+                    <Icon type="AntDesign" name="down" style={{fontSize: 16}} />
+                  </View>
                 </TouchableOpacity>
+                {this.state.term === true ? (
+                  <View
+                    style={{
+                      height: 'auto',
+                      marginTop: 5,
+                      padding: 8,
+                    }}>
+                    <Text style={{color: 'grey'}}>
+                      {this.props.data.termsCondition}
+                    </Text>
+                  </View>
+                ) : null}
               </View>
             </View>
           </View>
@@ -184,7 +248,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#002CBA',
     width: 50,
     height: 50,
-
+    borderBottomRightRadius: 3,
+    borderBottomLeftRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -199,4 +264,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(packageActive);
+export default withNavigation(CardPay);

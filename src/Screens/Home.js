@@ -6,6 +6,7 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {Icon} from 'native-base';
 import Moment from 'moment';
@@ -30,8 +31,10 @@ class Home extends Component {
   }
 
   componentDidMount = async () => {
-    await this.props.dispatch(getUser()).then(() => {
-      this.setState({balance: this.props.user.balance});
+    this.subscribe = this.props.navigation.addListener('didFocus', async () => {
+      await this.props.dispatch(getUser()).then(() => {
+        this.setState({balance: this.props.user.balance});
+      });
     });
   };
 
@@ -84,7 +87,9 @@ class Home extends Component {
           activeOpacity={1}
           style={styles.profile}>
           <View style={styles.profileImg}>
-            <View style={styles.img}></View>
+            <View style={styles.img}>
+              <Image source={{uri: this.props.user.photo}} style={{flex: 1}} />
+            </View>
           </View>
 
           <View style={{justifyContent: 'center', flex: 1}}>

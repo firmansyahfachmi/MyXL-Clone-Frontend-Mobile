@@ -14,6 +14,7 @@ import {withNavigation} from 'react-navigation';
 
 import {connect} from 'react-redux';
 import {getPackage} from '../Publics/Redux/Action/package';
+import {getCategory} from '../Publics/Redux/Action/category';
 
 import CardBuy from '../Components/CardBuy';
 import Loading from '../Components/loading';
@@ -27,18 +28,35 @@ import Cat5 from '../Assets/cat5.jpg';
 class BuyPackage extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      package: [],
+      category: [],
+    };
   }
 
   componentDidMount = async () => {
-    await this.props.dispatch(getPackage());
+    await this.setState({package: [], category: []});
+    // this.subscribe = this.props.navigation.addListener('didFocus', async () => {
+    await this.props.dispatch(getPackage()).then(() => {
+      this.setState({package: this.props.packages});
+    });
+    await this.props.dispatch(getCategory()).then(() => {
+      this.setState({category: this.props.category});
+    });
+    // });
   };
 
   render() {
     return (
       <Fragment>
         {/* LOADING */}
-        {this.props.loading === true ? (
+        {this.props.loadingCategory === true ? (
+          <View>
+            <Loading />
+          </View>
+        ) : null}
+
+        {this.props.loadingPackage === true ? (
           <View>
             <Loading />
           </View>
@@ -82,7 +100,7 @@ class BuyPackage extends Component {
               </Text>
             </View>
             <View>
-              {this.props.packages.map(pack =>
+              {this.state.package.map(pack =>
                 pack.id === 'PAK004' ? (
                   <CardBuy key={pack.id} data={pack} />
                 ) : null,
@@ -90,161 +108,95 @@ class BuyPackage extends Component {
             </View>
           </View>
           <View style={{paddingTop: 10}}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                this.props.navigation.navigate('Category', {category: 'CAT001'})
-              }
-              style={styles.cat}>
-              <Image source={Cat1} style={{flex: 1, width: '100%'}} />
-              <View
-                style={{
-                  position: 'absolute',
-                  alignItems: 'center',
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    type="MaterialIcons"
-                    name="swap-vert"
-                    style={{color: 'white', fontSize: 30, marginRight: 8}}
-                  />
-                  <Icon type="Feather" name="phone" style={{color: 'white'}} />
-                </View>
-                <Text
-                  style={{color: 'white', fontSize: 24, paddingVertical: 3}}>
-                  XTRA Combo VIP
-                </Text>
-                <View style={styles.indicator}>
-                  <Text style={{color: 'white'}}>
-                    {/* {this.props.packages.map(
-                      pack => pack.category === 'CAT001',
-                    )}{' '} */}
-                    1 Paket
+            {this.state.category.map(category => (
+              <TouchableOpacity
+                key={category.id}
+                activeOpacity={1}
+                onPress={() =>
+                  this.props.navigation.navigate('Category', {
+                    category: category.id,
+                  })
+                }
+                style={styles.cat}>
+                {category.id === 'CAT001' ? (
+                  <Image source={Cat1} style={{flex: 1, width: '100%'}} />
+                ) : category.id === 'CAT002' ? (
+                  <Image source={Cat2} style={{flex: 1, width: '100%'}} />
+                ) : category.id === 'CAT003' ? (
+                  <Image source={Cat3} style={{flex: 1, width: '100%'}} />
+                ) : category.id === 'CAT004' ? (
+                  <Image source={Cat4} style={{flex: 1, width: '100%'}} />
+                ) : category.id === 'CAT005' ? (
+                  <Image source={Cat5} style={{flex: 1, width: '100%'}} />
+                ) : null}
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    {category.id === 'CAT001' ? (
+                      <>
+                        <Icon
+                          type="MaterialIcons"
+                          name="swap-vert"
+                          style={{color: 'white', fontSize: 30, marginRight: 8}}
+                        />
+                        <Icon
+                          type="Feather"
+                          name="phone"
+                          style={{color: 'white'}}
+                        />
+                      </>
+                    ) : category.id === 'CAT002' ? (
+                      <Icon
+                        type="MaterialIcons"
+                        name="swap-vert"
+                        style={{color: 'white', fontSize: 30}}
+                      />
+                    ) : category.id === 'CAT003' ? (
+                      <>
+                        <Icon
+                          type="Feather"
+                          name="phone"
+                          style={{color: 'white', marginRight: 8}}
+                        />
+                        <Icon
+                          type="MaterialIcons"
+                          name="chat"
+                          style={{color: 'white'}}
+                        />
+                      </>
+                    ) : category.id === 'CAT004' ? (
+                      <Icon
+                        type="MaterialIcons"
+                        name="headset"
+                        style={{color: 'white', fontSize: 30}}
+                      />
+                    ) : category.id === 'CAT005' ? (
+                      <Icon
+                        type="Ionicons"
+                        name="ios-globe"
+                        style={{color: 'white', fontSize: 30}}
+                      />
+                    ) : null}
+                  </View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 24,
+                      paddingVertical: 3,
+                    }}>
+                    {category.name}
                   </Text>
+                  <View style={styles.indicator}>
+                    <Text style={{color: 'white'}}>
+                      {category.totalPackages} Paket
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                this.props.navigation.navigate('Category', {category: 'CAT002'})
-              }
-              style={styles.cat}>
-              <Image source={Cat2} style={{flex: 1, width: '100%'}} />
-              <View
-                style={{
-                  position: 'absolute',
-                  alignItems: 'center',
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    type="MaterialIcons"
-                    name="swap-vert"
-                    style={{color: 'white', fontSize: 30}}
-                  />
-                </View>
-                <Text
-                  style={{color: 'white', fontSize: 24, paddingVertical: 3}}>
-                  Internet
-                </Text>
-                <View style={styles.indicator}>
-                  <Text style={{color: 'white'}}>8 Paket</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                this.props.navigation.navigate('Category', {category: 'CAT003'})
-              }
-              style={styles.cat}>
-              <Image source={Cat3} style={{flex: 1, width: '100%'}} />
-              <View
-                style={{
-                  position: 'absolute',
-                  alignItems: 'center',
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    type="Feather"
-                    name="phone"
-                    style={{color: 'white', marginRight: 8}}
-                  />
-                  <Icon
-                    type="MaterialIcons"
-                    name="chat"
-                    style={{color: 'white'}}
-                  />
-                </View>
-                <Text
-                  style={{color: 'white', fontSize: 24, paddingVertical: 3}}>
-                  Nelpon & SMS
-                </Text>
-                <View style={styles.indicator}>
-                  <Text style={{color: 'white'}}>15 Paket</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                this.props.navigation.navigate('Category', {category: 'CAT004'})
-              }
-              style={styles.cat}>
-              <Image source={Cat4} style={{flex: 1, width: '100%'}} />
-              <View
-                style={{
-                  position: 'absolute',
-                  alignItems: 'center',
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    type="MaterialIcons"
-                    name="headset"
-                    style={{color: 'white', fontSize: 30}}
-                  />
-                </View>
-                <Text
-                  style={{color: 'white', fontSize: 24, paddingVertical: 3}}>
-                  Lifestyle
-                </Text>
-                <View style={styles.indicator}>
-                  <Text style={{color: 'white'}}>6 Paket</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                this.props.navigation.navigate('Category', {category: 'CAT005'})
-              }
-              style={styles.cat}>
-              <Image source={Cat5} style={{flex: 1, width: '100%'}} />
-              <View
-                style={{
-                  position: 'absolute',
-                  alignItems: 'center',
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    type="Ionicons"
-                    name="ios-globe"
-                    style={{color: 'white', fontSize: 30}}
-                  />
-                </View>
-                <Text
-                  style={{color: 'white', fontSize: 24, paddingVertical: 3}}>
-                  Roaming
-                </Text>
-                <View style={styles.indicator}>
-                  <Text style={{color: 'white'}}>20 Paket</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            ))}
           </View>
         </ScrollView>
       </Fragment>
@@ -286,7 +238,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     packages: state.packages.packageData,
-    loading: state.packages.isLoading,
+    loadingPackage: state.packages.isLoading,
+    category: state.category.categoryData,
+    loadingCategory: state.category.isLoading,
   };
 };
 

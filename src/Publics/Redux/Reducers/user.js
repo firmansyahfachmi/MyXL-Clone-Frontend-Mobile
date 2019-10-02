@@ -27,6 +27,45 @@ const user = (state = initialState, action) => {
         isFulfilled: true,
         currentUser: action.payload.data.response,
       };
+    case 'BUY_PACKAGE_PENDING':
+      return {
+        ...state,
+        isLoading: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'BUY_PACKAGE_REJECTED':
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true,
+      };
+    case 'BUY_PACKAGE_FULFILLED':
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+      };
+
+    case 'DELETE_PACKAGE_PENDING':
+      return {
+        ...state,
+        isLoading: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'DELETE_PACKAGE_REJECTED':
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true,
+      };
+    case 'DELETE_PACKAGE_FULFILLED':
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+      };
     default:
       return state;
   }
