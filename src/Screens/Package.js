@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 
+import {deletePackage} from '../Publics/Redux/Action/user';
+
 import {connect} from 'react-redux';
 import {getUser} from '../Publics/Redux/Action/user';
 
@@ -18,16 +20,99 @@ import ProgressBar from '../Components/ProgressBar';
 class Packages extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      idPack: '',
+      confirm: false,
+    };
   }
 
   componentDidMount = async () => {
     await this.props.dispatch(getUser());
   };
 
+  handleShow = (call, id) => {
+    if (call === true) {
+      this.setState({
+        idPack: id,
+        confirm: true,
+      });
+    }
+  };
+
   render() {
     return (
       <Fragment>
+        {/* CONFIRM */}
+        {this.state.confirm === false ? null : (
+          <View
+            style={{
+              backgroundColor: 'rgba(0,0,0,0.6)',
+              width: '100%',
+              height: 650,
+              zIndex: 9,
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                height: 'auto',
+                width: 300,
+                borderRadius: 5,
+                alignItems: 'center',
+                padding: 10,
+              }}>
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'center',
+                  paddingVertical: 5,
+                }}>
+                <Text style={{fontSize: 16}}>
+                  Anda Hendak Berhenti Berlangganan
+                </Text>
+              </View>
+              <View style={{paddingVertical: 8}}>
+                <Text style={{fontSize: 18}}>Apakah Anda Yakin?</Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() =>
+                  this.props
+                    .dispatch(
+                      deletePackage(this.props.user.number, this.state.idPack),
+                    )
+                    .then(() => {
+                      this.setState({confirm: false});
+                      this.props.navigation.navigate('Home');
+                    })
+                }
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#f2de49',
+                  backgroundColor: 'yellow',
+                  width: '90%',
+                  height: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{fontWeight: '700'}}>YA</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({confirm: false});
+                }}
+                activeOpacity={1}
+                style={{paddingVertical: 15}}>
+                <Text>Batal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        {/* CONFIRM END*/}
+
         <View>
           <StatusBar backgroundColor={'#002CBA'} />
         </View>
@@ -104,15 +189,24 @@ class Packages extends Component {
                     />
                   </View>
 
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.totalQuota === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingQuota >= 1000
@@ -121,11 +215,15 @@ class Packages extends Component {
                       </Text>
                     )}
                     {this.props.user.remainingQuota >= 1000 ? (
-                      <Text style={{color: 'grey'}}>&nbsp;GB</Text>
+                      <Text style={{color: 'grey', fontSize: 12}}>
+                        &nbsp;GB
+                      </Text>
                     ) : (
-                      <Text style={{color: 'grey'}}>&nbsp;MB</Text>
+                      <Text style={{color: 'grey', fontSize: 12}}>
+                        &nbsp;MB
+                      </Text>
                     )}
-                  </Text>
+                  </View>
                   {this.props.user.unlimited === 1 ? (
                     <Text style={{fontSize: 10, color: '#00C89F'}}>
                       + UNLIMITED
@@ -156,22 +254,33 @@ class Packages extends Component {
                       }}
                     />
                   </View>
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.remainingCall === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingCall}
                       </Text>
                     )}
-                    <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
-                  </Text>
+                    <Text style={{color: 'grey', fontSize: 12}}>
+                      &nbsp;Menit
+                    </Text>
+                  </View>
                 </View>
                 <View style={styles.tree}>
                   <View
@@ -188,22 +297,31 @@ class Packages extends Component {
                       }}
                     />
                   </View>
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.remainingSMS === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingSMS}
                       </Text>
                     )}
                     <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
-                  </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -217,7 +335,7 @@ class Packages extends Component {
                 type={pack.id}
                 key={pack.id}
                 data={pack}
-                userId={this.props.user.number}
+                handle={this.handleShow}
               />
             ))}
           </View>

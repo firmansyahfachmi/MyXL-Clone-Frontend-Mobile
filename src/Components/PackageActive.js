@@ -3,8 +3,9 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 import {Icon} from 'native-base';
 
-import {deletePackage} from '../Publics/Redux/Action/user';
 import {connect} from 'react-redux';
+
+import {withNavigation} from 'react-navigation';
 
 import Internet1 from '../Components/ActiveComp/Internet1';
 
@@ -106,9 +107,7 @@ class packageActive extends Component {
               <View style={{flexDirection: 'row', paddingVertical: 10}}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.dispatch(
-                      deletePackage(this.props.userId, this.props.data.id),
-                    );
+                    this.props.handle(true, this.props.data.id);
                   }}
                   activeOpacity={0.7}
                   style={[
@@ -126,7 +125,11 @@ class packageActive extends Component {
                   />
                   <Text>&nbsp;STOP PAKET</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('BuyPackage');
+                  }}
                   activeOpacity={0.7}
                   style={[
                     styles.button,
@@ -199,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(packageActive);
+export default connect()(withNavigation(packageActive));

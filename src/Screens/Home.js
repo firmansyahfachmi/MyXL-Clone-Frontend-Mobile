@@ -32,9 +32,11 @@ class Home extends Component {
 
   componentDidMount = async () => {
     this.subscribe = this.props.navigation.addListener('didFocus', async () => {
-      await this.props.dispatch(getUser()).then(() => {
-        this.setState({balance: this.props.user.balance});
-      });
+      await this.props
+        .dispatch(getUser(this.props.navigation.getParam('number')))
+        .then(() => {
+          this.setState({balance: this.props.user.balance});
+        });
     });
   };
 
@@ -272,15 +274,24 @@ class Home extends Component {
                     />
                   </View>
 
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.remainingQuota === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingQuota >= 1000
@@ -289,11 +300,15 @@ class Home extends Component {
                       </Text>
                     )}
                     {this.props.user.remainingQuota >= 1000 ? (
-                      <Text style={{color: 'grey'}}>&nbsp;GB</Text>
+                      <Text style={{color: 'grey', fontSize: 12}}>
+                        &nbsp;GB
+                      </Text>
                     ) : (
-                      <Text style={{color: 'grey'}}>&nbsp;MB</Text>
+                      <Text style={{color: 'grey', fontSize: 12}}>
+                        &nbsp;MB
+                      </Text>
                     )}
-                  </Text>
+                  </View>
                   {this.props.user.unlimited === 1 ? (
                     <Text style={{fontSize: 10, color: '#00C89F'}}>
                       + UNLIMITED
@@ -324,22 +339,33 @@ class Home extends Component {
                       }}
                     />
                   </View>
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.remainingCall === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingCall}
                       </Text>
                     )}
-                    <Text style={{color: 'grey'}}>&nbsp;Menit</Text>
-                  </Text>
+                    <Text style={{color: 'grey', fontSize: 12}}>
+                      &nbsp;Menit
+                    </Text>
+                  </View>
                 </View>
                 <View style={styles.tree}>
                   <View
@@ -356,22 +382,31 @@ class Home extends Component {
                       }}
                     />
                   </View>
-                  <Text style={{fontSize: 12, paddingTop: 3}}>
+                  <View
+                    style={{
+                      paddingTop: 3,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     {this.props.user.remainingSMS === 0 ? (
-                      <>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() =>
+                          this.props.navigation.navigate('BuyPackage')
+                        }>
                         <Icon
                           type="AntDesign"
                           name="plussquare"
                           style={{fontSize: 12, color: 'red'}}
                         />
-                      </>
+                      </TouchableOpacity>
                     ) : (
                       <Text style={{fontSize: 20}}>
                         {this.props.user.remainingSMS}
                       </Text>
                     )}
-                    <Text style={{color: 'grey'}}>&nbsp;SMS</Text>
-                  </Text>
+                    <Text style={{color: 'grey', fontSize: 12}}>&nbsp;SMS</Text>
+                  </View>
                 </View>
               </View>
             </View>

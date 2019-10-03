@@ -62,6 +62,7 @@ class BuyPackage extends Component {
           </View>
         ) : null}
         {/* LOADING END */}
+
         <View>
           <StatusBar backgroundColor={'#002CBA'} />
         </View>

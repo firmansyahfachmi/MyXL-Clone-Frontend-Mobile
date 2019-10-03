@@ -25,13 +25,15 @@ const cardMenu = props => {
           </View>
           <Text style={{fontSize: 12}}>Beli Paket</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menu, {marginHorizontal: 10}]}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={[styles.menu, {marginHorizontal: 10}]}>
           <View style={styles.icon}>
             <Image source={Menu2} style={{resizeMode: 'contain', width: 35}} />
           </View>
           <Text style={{fontSize: 12}}>Bagi Pulsa</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu}>
+        <TouchableOpacity activeOpacity={0.9} style={styles.menu}>
           <View style={styles.icon}>
             <Image source={Menu3} style={{resizeMode: 'contain', width: 35}} />
           </View>

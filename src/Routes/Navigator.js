@@ -6,15 +6,32 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import {Icon} from 'native-base';
 
-// import Splash from '../Screens/Splash';
+import Splash from '../Screens/Splash';
 import HomeScreen from '../Screens/Home';
 import PackageScreen from '../Screens/Package';
 import PromoScreen from '../Screens/Promo';
 import BuyPackageScreen from '../Screens/BuyPackage';
 import CategoryScreen from '../Screens/Category';
 import PayScreen from '../Screens/Pay';
+import OthersScreen from '../Screens/Others';
+import ProfileScreen from '../Screens/Profile';
+import InputNumber from '../Screens/InputNumber';
+import Verification from '../Screens/Verification';
 
-// const AuthStack = createStackNavigator({});
+const AuthStack = createStackNavigator({
+  InputNumber: {
+    screen: InputNumber,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Verification: {
+    screen: Verification,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
 
 const AppStack = createStackNavigator(
   {
@@ -80,6 +97,21 @@ const PromoStack = createStackNavigator({
   },
 });
 
+const OthersStack = createStackNavigator({
+  Others: {
+    screen: OthersScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
+
 const AppNavigator = createBottomTabNavigator(
   {
     HomeTab: {
@@ -122,7 +154,7 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
     OthersTab: {
-      screen: AppStack,
+      screen: OthersStack,
       navigationOptions: {
         tabBarLabel: 'Lainnya',
         tabBarIcon: ({tintColor}) => (
@@ -155,11 +187,12 @@ const AppNavigator = createBottomTabNavigator(
 const AppRoot = createAppContainer(
   createSwitchNavigator(
     {
-      //   Splash: Splash,
+      Splash: Splash,
+      Auth: AuthStack,
       App: AppNavigator,
     },
     {
-      initialRouteName: 'App',
+      initialRouteName: 'Splash',
     },
   ),
 );

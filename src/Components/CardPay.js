@@ -149,6 +149,7 @@ class CardPay extends Component {
                   marginVertical: 10,
                   borderTopWidth: 1,
                   paddingVertical: 15,
+                  borderColor: 'silver',
                 }}>
                 <TouchableOpacity
                   activeOpacity={1}
@@ -161,7 +162,7 @@ class CardPay extends Component {
                   <Text style={{flex: 1}}>Info Paket</Text>
                   <View
                     style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
-                    <Icon type="AntDesign" name="down" style={{fontSize: 16}} />
+                    <Icon type="AntDesign" name="down" style={{fontSize: 12}} />
                   </View>
                 </TouchableOpacity>
                 {this.state.info === true ? (
@@ -181,6 +182,7 @@ class CardPay extends Component {
                 style={{
                   borderTopWidth: 1,
                   paddingVertical: 18,
+                  borderColor: 'silver',
                 }}>
                 <TouchableOpacity
                   activeOpacity={1}
@@ -193,7 +195,7 @@ class CardPay extends Component {
                   <Text style={{flex: 1}}>Syarat & Ketentuan</Text>
                   <View
                     style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
-                    <Icon type="AntDesign" name="down" style={{fontSize: 16}} />
+                    <Icon type="AntDesign" name="down" style={{fontSize: 12}} />
                   </View>
                 </TouchableOpacity>
                 {this.state.term === true ? (

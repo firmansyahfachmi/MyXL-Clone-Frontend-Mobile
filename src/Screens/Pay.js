@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Icon, Radio} from 'native-base';
+import {Icon, Radio, Toast} from 'native-base';
 
 import {connect} from 'react-redux';
 import {getPackage} from '../Publics/Redux/Action/package';
@@ -65,7 +65,7 @@ class Pay extends Component {
           }}>
           <View
             style={{
-              paddingHorizontal: 18,
+              paddingHorizontal: 12,
               paddingTop: 20,
               alignItems: 'center',
             }}>
@@ -109,8 +109,14 @@ class Pay extends Component {
                     this.props.navigation.getParam('id'),
                   ),
                 )
-                .then(() => {
-                  this.props.navigation.navigate('Home');
+                .then(res => {
+                  !res.value.data.error
+                    ? this.props.navigation.navigate('Home')
+                    : Toast.show({
+                        text: res.value.data.error,
+                        type: 'danger',
+                        position: 'bottom',
+                      });
                 });
             }}
             activeOpacity={0.9}
