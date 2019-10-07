@@ -21,22 +21,34 @@ import Menu from '../Components/Menu';
 import ProgressBar from '../Components/ProgressBar';
 import Loading from '../Components/loading';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 class Home extends Component {
   constructor() {
     super();
     this.state = {
       showBox: false,
       balance: '',
+      number: '',
     };
   }
 
   componentDidMount = async () => {
+    await AsyncStorage.getItem('userNumber').then(res => {
+      this.setState({
+        number: res,
+      });
+    });
+
+    await this.props.dispatch(getUser(this.state.number)).then(() => {
+      this.setState({balance: this.props.user.balance});
+    });
+
     this.subscribe = this.props.navigation.addListener('didFocus', async () => {
-      await this.props
-        .dispatch(getUser(this.props.navigation.getParam('number')))
-        .then(() => {
-          this.setState({balance: this.props.user.balance});
-        });
+      console.log(this.state.number);
+      await this.props.dispatch(getUser(this.state.number)).then(() => {
+        this.setState({balance: this.props.user.balance});
+      });
     });
   };
 

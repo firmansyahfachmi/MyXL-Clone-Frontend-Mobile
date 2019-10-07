@@ -3,9 +3,9 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 import {withNavigation} from 'react-navigation';
 
-import Menu1 from '../Assets/menu1.png';
-import Menu2 from '../Assets/menu2.png';
-import Menu3 from '../Assets/menu3.png';
+import Menu1 from '../Assets/menuSatu.png';
+import Menu2 from '../Assets/menuDua.png';
+import Menu3 from '../Assets/menuTiga.png';
 
 const cardMenu = props => {
   return (

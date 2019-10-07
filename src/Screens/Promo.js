@@ -11,7 +11,6 @@ import {
 import {Icon} from 'native-base';
 
 import {connect} from 'react-redux';
-import {getUser} from '../Publics/Redux/Action/user';
 
 import Carousel2 from '../Components/Carousel2';
 

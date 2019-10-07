@@ -7,6 +7,8 @@ import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import {verifyOTP} from '../Publics/Redux/Action/user';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 import Background from '../Assets/background.jpg';
 
 class Verification extends Component {
@@ -27,23 +29,36 @@ class Verification extends Component {
   submitVerify = () => {
     this.props
       .dispatch(
-        verifyOTP(this.props.navigation.getParam('number'), this.state.otp),
+        verifyOTP(this.props.navigation.getParam('number'), {
+          otp: this.state.otp,
+        }),
       )
       .then(res => {
-        // if (res.value.data.response)
-        Toast.show({
-          text: 'Berhasil Login',
+        if (!res.value.data.error) {
+          AsyncStorage.setItem(
+            'userNumber',
+            this.props.navigation.getParam('number').toString(),
+          );
+          Toast.show({
+            text: 'Berhasil Login',
 
-          type: 'success',
-          position: 'bottom',
-        });
-        this.props.navigation.navigate('App', {
-          number: this.props.navigation.getParam('number'),
-        });
+            type: 'success',
+            position: 'bottom',
+          });
+          this.props.navigation.navigate('Home');
+        } else {
+          Toast.show({
+            text: res.value.data.error,
+
+            type: 'danger',
+            position: 'bottom',
+          });
+        }
       });
   };
 
   render() {
+    console.log('s', this.state.otp);
     return (
       <Fragment>
         <Image source={Background} style={styles.splash} />

@@ -23,15 +23,24 @@ import {
 import {connect} from 'react-redux';
 import {getUser, updateUser} from '../Publics/Redux/Action/user';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 class Profile extends Component {
   constructor() {
     super();
     this.state = {
       formData: {},
+      number: '',
     };
   }
   componentDidMount = async () => {
-    await this.props.dispatch(getUser()).then(() => {
+    await AsyncStorage.getItem('userNumber').then(res => {
+      this.setState({
+        number: res,
+      });
+    });
+
+    await this.props.dispatch(getUser(this.state.number)).then(() => {
       this.setState({
         formData: {
           name: this.props.user.name,

@@ -1,6 +1,7 @@
 import Axios from 'axios';
 
 export const getUser = number => {
+  console.log('s', number);
   return {
     type: 'GET_USER',
     payload: Axios.get(`http://18.140.51.229:5000/api/user/${number}`),
@@ -37,28 +38,36 @@ export const updateUser = (number, data) => {
   };
 };
 
-// export const requestOTP = number => {
-//   return {
-//     type: 'REQUEST_OTP',
-//     payload: Axios.get(
-//       `http://18.140.51.229:5000/api/user/otp/login/${number}`,
-//     ),
-//   };
-// };
+export const requestOTP = number => {
+  return {
+    type: 'REQUEST_OTP',
+    payload: Axios.get(
+      `http://18.140.51.229:5000/api/user/otp/login/${number}`,
+    ),
+  };
+};
 
-// export const verifyOTP = (number, data) => {
-//   return {
-//     type: 'VERIFY_OTP',
-//     payload: Axios.post(
-//       `http://18.140.51.229:5000/api/user/otp/login/${number}`,
-//       data,
-//     ),
-//   };
-// };
+export const verifyOTP = (number, data) => {
+  console.log('4546 ', number, data);
+
+  return {
+    type: 'VERIFY_OTP',
+    payload: Axios.post(
+      `http://18.140.51.229:5000/api/user/otp/login/${number}`,
+      data,
+    ),
+  };
+};
 
 export const login = number => {
   return {
     type: 'LOGIN',
     payload: Axios.post(`http://18.140.51.229:5000/api/user/login/${number}`),
+  };
+};
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
   };
 };

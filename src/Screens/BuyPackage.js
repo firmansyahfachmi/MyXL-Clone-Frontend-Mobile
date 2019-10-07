@@ -19,11 +19,11 @@ import {getCategory} from '../Publics/Redux/Action/category';
 import CardBuy from '../Components/CardBuy';
 import Loading from '../Components/loading';
 
-import Cat1 from '../Assets/cat1.jpg';
-import Cat2 from '../Assets/cat2.jpg';
-import Cat3 from '../Assets/cat3.jpg';
-import Cat4 from '../Assets/cat4.jpg';
-import Cat5 from '../Assets/cat5.jpg';
+import Cat1 from '../Assets/catSatu.jpg';
+import Cat2 from '../Assets/catDua.jpg';
+import Cat3 from '../Assets/catTiga.jpg';
+import Cat4 from '../Assets/catEmpat.jpg';
+import Cat5 from '../Assets/catLima.jpg';
 
 class BuyPackage extends Component {
   constructor() {

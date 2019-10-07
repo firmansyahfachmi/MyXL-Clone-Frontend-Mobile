@@ -1,12 +1,9 @@
 import React, {Fragment} from 'react';
 import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
 
-import Carousel1 from '../Assets/carousel1.png';
-import Car1 from '../Assets/car1.png';
-import Carousel3 from '../Assets/carousel3.jpg';
-import Carousel4 from '../Assets/carousel4.jpg';
+import Car1 from '../Assets/carPromo.png';
 
-import Logo1 from '../Assets/logoXL-04.png';
+import Logo1 from '../Assets/logo_w.png';
 
 const CarouselPromo = () => {
   return (

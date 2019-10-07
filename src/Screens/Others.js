@@ -14,13 +14,21 @@ import {Icon, Separator, ListItem} from 'native-base';
 import {withNavigation} from 'react-navigation';
 
 import {connect} from 'react-redux';
-import {getUser} from '../Publics/Redux/Action/user';
+import {logout} from '../Publics/Redux/Action/user';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Others extends Component {
   constructor() {
     super();
     this.state = {};
   }
+
+  logout = () => {
+    AsyncStorage.removeItem('userNumber');
+    this.props.dispatch(logout());
+    this.props.navigation.navigate('InputNumber');
+  };
 
   render() {
     return (
@@ -161,7 +169,12 @@ class Others extends Component {
             />
           </ListItem>
           <ListItem last>
-            <Text style={{color: '#002CBA'}}>Keluar</Text>
+            <TouchableOpacity
+              style={{flexDirection: 'row'}}
+              activeOpacity={1}
+              onPress={this.logout}>
+              <Text style={{color: '#002CBA'}}>Keluar</Text>
+            </TouchableOpacity>
           </ListItem>
           <Separator bordered></Separator>
         </ScrollView>

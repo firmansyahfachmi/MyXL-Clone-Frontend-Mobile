@@ -4,7 +4,17 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 const Progress = props => {
   let count = 0;
   let percent = 0;
+  let color = '';
   percent = (props.remaining / props.total) * 100;
+  if (percent > 60) {
+    color = '#00C89F';
+  } else if (percent > 30) {
+    color = '#ffd736';
+  } else if (percent > 0) {
+    color = '#ff3636';
+  } else {
+    color = 'grey';
+  }
   percent.toString();
 
   return (
@@ -30,7 +40,7 @@ const Progress = props => {
 
         <View
           style={{
-            backgroundColor: '#00C89F',
+            backgroundColor: color,
             width: percent + '%',
             borderRadius: 3,
             flex: 1,

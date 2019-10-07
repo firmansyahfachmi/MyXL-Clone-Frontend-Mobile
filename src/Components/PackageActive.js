@@ -9,11 +9,11 @@ import {withNavigation} from 'react-navigation';
 
 import Internet1 from '../Components/ActiveComp/Internet1';
 
-import Logo1 from '../Assets/logoXL-04.png';
-import Icon2 from '../Assets/icon2.jpg';
-import Icon3 from '../Assets/icon3.jpg';
-import Icon4 from '../Assets/icon4.jpg';
-import Icon5 from '../Assets/icon5.jpg';
+import Logo1 from '../Assets/logo_w.png';
+import Icon2 from '../Assets/iconDua.jpg';
+import Icon3 from '../Assets/iconTiga.jpg';
+import Icon4 from '../Assets/iconEmpat.jpg';
+import Icon5 from '../Assets/iconLima.jpg';
 
 class packageActive extends Component {
   constructor() {

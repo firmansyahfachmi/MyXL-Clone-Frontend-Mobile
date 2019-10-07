@@ -142,6 +142,14 @@ const user = (state = initialState, action) => {
         isLoading: false,
         isFulfilled: true,
       };
+
+    case 'LOGOUT':
+      return {
+        ...state,
+        isLoading: false,
+        isFulfilled: true,
+        currentUser: [],
+      };
     default:
       return state;
   }

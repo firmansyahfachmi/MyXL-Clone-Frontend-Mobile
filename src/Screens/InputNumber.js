@@ -5,7 +5,9 @@ import {Input, Item, Icon, Toast} from 'native-base';
 import {withNavigation} from 'react-navigation';
 
 import {connect} from 'react-redux';
-import {login} from '../Publics/Redux/Action/user';
+import {login, requestOTP} from '../Publics/Redux/Action/user';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Background from '../Assets/background.jpg';
 
@@ -23,6 +25,37 @@ class InputNumber extends Component {
       number,
     });
   };
+
+  componentDidMount = async () => {
+    await AsyncStorage.getItem('userNumber').then(res => {
+      if(res !== null){
+        this.props.navigation.navigate('Home')
+      }
+    })
+  }
+
+  submit = () => {
+    this.state.number === null
+      ? Toast.show({
+          text: 'Isi nomor Anda',
+          type: 'default',
+          position: 'bottom',
+        })
+      : this.state.number.length > 13
+      ? Toast.show({
+          text: 'Nomor maksimal 13 karakter',
+          type: 'default',
+          position: 'bottom',
+        })
+      : this.props.dispatch(requestOTP(this.state.number)).then(async () => {
+          AsyncStorage.setItem('userNumber', this.state.number.toString());
+
+          this.props.navigation.navigate('Verification', {
+            number: this.state.number,
+          });
+        });
+  };
+
   render() {
     return (
       <Fragment>
@@ -55,25 +88,7 @@ class InputNumber extends Component {
           </View>
           <View style={{width: '80%', paddingTop: 20, height: 50}}>
             <TouchableOpacity
-              onPress={() =>
-                this.state.number === null
-                  ? Toast.show({
-                      text: 'Isi nomor Anda',
-                      type: 'default',
-                      position: 'bottom',
-                    })
-                  : this.state.number.length > 13
-                  ? Toast.show({
-                      text: 'Nomor maksimal 13 karakter',
-                      type: 'default',
-                      position: 'bottom',
-                    })
-                  : this.props.dispatch(login(this.state.number)).then(() => {
-                      this.props.navigation.navigate('Home', {
-                        number: this.state.number,
-                      });
-                    })
-              }
+              onPress={this.submit}
               activeOpacity={0.8}
               style={{
                 backgroundColor: 'yellow',

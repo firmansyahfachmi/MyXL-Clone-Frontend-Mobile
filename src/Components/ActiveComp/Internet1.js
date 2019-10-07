@@ -77,9 +77,11 @@ const Internet1 = props => {
                 ) : (
                   <>
                     <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                      {items.value >= 1000 ? items.value / 1000 : items.value}
+                      {items.remaining >= 1000
+                        ? items.remaining / 1000
+                        : items.remaining}
                     </Text>
-                    {items.value >= 1000 ? (
+                    {items.remaining >= 1000 ? (
                       <Text>&nbsp;GB</Text>
                     ) : (
                       <Text>&nbsp;MB</Text>
