@@ -59,6 +59,9 @@ Indonesia's prominent telecommunication provider through services for retail cus
   </p>
   
   <br/>
+  
+## Download APK
+[`Download Now`](https://shorturl.at/efprD)
 
 ## Contributors
 
